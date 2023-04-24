@@ -74,6 +74,38 @@ app.post("/register", (req, res) => {
   }
 });
 
+// UPDATE bikes SET available = 0 WHERE id = 2;
+
+app.post("/update", (req, res) => {
+  var a = req.body.a;
+  var id = req.body.id;
+  if (a === 1) {
+    db.query(
+      `UPDATE bikes SET available = 0 WHERE id = ${id}`,
+      (err, result) => {
+        res.status(200);
+        // console.log("merge");
+      }
+    );
+  } else res.status(401);
+
+  if (a === 0) {
+    db.query(
+      `UPDATE bikes SET available = 1 WHERE id = ${id}`,
+      (err, result) => {
+        res.status(200);
+        // console.log("merge si asta");
+      }
+    );
+  } else res.status(401);
+});
+
+app.get("/bikes", (req, res) => {
+  db.query("SELECT * FROM `bikes` ", (err, result) => {
+    res.send(result);
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}`);
 });
